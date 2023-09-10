@@ -2,22 +2,19 @@ const experss= require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser'); // You may need to install this package
 const app=experss();
-const PORT=5000;
-const uri='mongodb+srv://amanzhx1234:election123@cluster0.bjbll35.mongodb.net/todo'
+const PORT =process.env.PORT || 5000;
 const cors = require('cors');
 const createRouter=require('./Routes/Create')
 const alltodos=require('./Routes/Read')
 const deleteRouter=require('./Routes/Delete')
+require('dotenv').config();
+const URI = process.env.MONGO_URI
 
 app.use(bodyParser.json());
 
+app.use(cors({ origin: '*' }));
 
-app.use(cors())
 
-mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 app.use('/api',cors(),createRouter)
 app.use('/api',cors(),alltodos)
@@ -38,7 +35,7 @@ var corsOptions = {
 const connect=async()=>{
 
 
-    await  mongoose.connect(uri, {
+    await  mongoose.connect(URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
           }).then(console.log("Mongo Is connected Successfully"))

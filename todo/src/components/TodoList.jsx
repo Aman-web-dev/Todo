@@ -11,7 +11,7 @@ const pickedElement=useRef("")
 
 
 const fetchData=async ()=>{
-  const response=await fetch("http://localhost:5000/api/alltodos")
+  const response=await fetch("https://todo-backend-1la2.onrender.com/api/alltodos")
   if(response.ok){
     const result=await response.json()
 
@@ -35,7 +35,7 @@ const fetchData=async ()=>{
 
 const deleteData=async (id)=>{
   const deleteData={_id:id}
-  const data = await fetch("http://localhost:5000/api/deletetodo",{
+  const data = await fetch("https://todo-backend-1la2.onrender.com/api/deletetodo",{
     method:"DELETE",
     body:JSON.stringify(deleteData),
     headers:{

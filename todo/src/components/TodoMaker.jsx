@@ -26,7 +26,7 @@ function TodoMaker () {
     setTodo([...todo, newTodo])
 
 
-    const response=await fetch("http://localhost:5000/api/createtodo",{
+    const response=await fetch("https://todo-backend-1la2.onrender.com/api/createtodo",{
       method:'POST',
       body:JSON.stringify(newTodo),
       headers:{
