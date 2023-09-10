@@ -8,8 +8,7 @@ const createRouter=require('./Routes/Create')
 const alltodos=require('./Routes/Read')
 const deleteRouter=require('./Routes/Delete')
 require('dotenv').config();
-const URI = process.env.MONGO_URI
-
+const URI ='mongodb+srv://amanzhx1234:election123@cluster0.bjbll35.mongodb.net/todo'
 app.use(bodyParser.json());
 
 app.use(cors({ origin: '*' }));

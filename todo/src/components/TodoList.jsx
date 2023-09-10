@@ -74,13 +74,13 @@ console.log(data)
       description={elem.description}
       status={elem.status}
       dragStart={() => pickedElement.current = elem._id}
-      handleDelete={() => deleteData(elem._id,todo)}
+      handleDelete={() => deleteData(elem._id)}
       />)
 }
 </div>
 
 
-<div className='border border-black  black' onDragLeav={(e) => handleDragCapture(e)}>
+<div className='border border-black  black' onDragLeave={(e) => handleDragCapture(e)}>
 
   <p className='text-3xl p-2 font-bold m-auto'>Done</p>
 
@@ -93,7 +93,7 @@ console.log(data)
           status={elem.status}
           description={elem.description}
           dragStart={() => pickedElement.current = elem._id}
-          handleDelete={()=>deleteData(elem._id,todo)}
+          handleDelete={()=>deleteData(elem._id)}
           />)
 }
 </div>  
@@ -112,9 +112,9 @@ console.log(data)
           status={elem.status}
           description={elem.description}
           dragStart={() => pickedElement.current = elem._id}
-          handleDelete={()=>deleteData(elem._id,todo)}
+          handleDelete={()=>deleteData(elem._id)}
           />)
-}
+} 
 </div> 
 
 
