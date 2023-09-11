@@ -8,6 +8,8 @@ const [completedToDo,setCompletedToDo]=useState([])
 const [doing,setDoing]=useState([])
 const [loading,setLoading]=useState(true)
 const pickedElement=useRef("")
+const pickedDiv=useRef("")
+
 
 
 const fetchData=async ()=>{
@@ -19,7 +21,6 @@ const fetchData=async ()=>{
     const completedArray= await result.filter((elem)=>elem.status=='done');
     const doingArray= await result.filter((elem)=>elem.status=='doing');
 
-  
    setData(todoArray);
    setCompletedToDo(completedArray);
    setDoing(doingArray)
@@ -51,11 +52,30 @@ const deleteData=async (id)=>{
 }
 
 
-const handleDragCapture = async (e,status) => {
-  e.preventDefault();
-console.log(pickedElement.current,status)
+
+
+
+const handleDragEnd=(e)=>{
+
+console.log("pickedElement",pickedElement.current)
+
+const tododiv = document.getElementById("todo");
+
+const doingdiv=document.getElementById("doing");
+
+tododiv.appendChild(e.target)
+
+doingdiv.appendChild(e.target)
+
 }
 
+
+
+const handleMouseOver=(e)=>{
+
+  console.log(e.target.id)
+
+}
 
 useEffect(()=>{
 fetchData()
@@ -63,8 +83,8 @@ console.log(data)
 },[])
   return (
 
-    <div className='flex flex-row  justify-around m-auto'>
-<div className='' onDragLeave={(e) => handleDragCapture(e)}>
+    <div className='flex xl:flex-row flex-col md:flex-row  justify-around m-auto'>
+<div id="todo" className='min-w-[30vw] mx-2 my-1 bg-blue-200 rounded-lg items-stretch  p-2' onDragEndCapture={(e)=>handleDragEnd(e)} onDragEnter={()=>pickedDiv.current=} >
 <p className='text-3xl p-2 font-bold m-auto'>Todo</p>
   {
     loading ?"loading":
@@ -73,14 +93,15 @@ console.log(data)
       key={elem._id}
       description={elem.description}
       status={elem.status}
-      dragStart={() => pickedElement.current = elem._id}
+      dragStart={() => pickedElement.current = elem}
       handleDelete={() => deleteData(elem._id)}
+      onDragEnd={()=>handleDragEnd(e) }
       />)
 }
 </div>
 
 
-<div className='border border-black  black' onDragLeave={(e) => handleDragCapture(e)}>
+<div className='min-w-[30vw] mx-2 my-1 bg-blue-200 rounded-lg  justify-center p-2 ' onDragEndCapture={(e)=>handleDragEnd(e)}>
 
   <p className='text-3xl p-2 font-bold m-auto'>Done</p>
 
@@ -92,18 +113,16 @@ console.log(data)
           title={elem.todoName}
           status={elem.status}
           description={elem.description}
-          dragStart={() => pickedElement.current = elem._id}
+          dragStart={() => pickedElement.current = elem}
           handleDelete={()=>deleteData(elem._id)}
           />)
 }
 </div>  
 
 
-<div className='border border-black  black' onDragLeave={(e) => handleDragCapture(e)}>
+<div id='doing' className='min-w-[30vw] mx-2 my-1 bg-blue-200 rounded-lg item-center justify-center p-2' onDragEndCapture={(e)=>handleDragEnd(e)}>
 
 <p className='text-3xl p-2 font-bold m-auto'>Doing</p>
-
-
 {
         loading?"loading":
          doing.map((elem) => <Card
@@ -111,7 +130,8 @@ console.log(data)
           title={elem.todoName}
           status={elem.status}
           description={elem.description}
-          dragStart={() => pickedElement.current = elem._id}
+          dragStart={() => pickedElement.current = elem}
+          onDragEnd={()=> pickedElement.current=null}
           handleDelete={()=>deleteData(elem._id)}
           />)
 } 

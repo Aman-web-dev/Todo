@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react'
-import Card from './Card'
 import Form from './Form'
 import TodoList from './TodoList'
 
@@ -11,21 +10,18 @@ function TodoMaker () {
     description: "",
     status:"",
   })
-  const pickedElement = useRef(0);
-  const [todo, setTodo] = useState([])
-  const [completedToDo, setCompletedToDo] = useState([])
-
+  const [loading,setLoading]=useState(false)
+ 
+ 
   const handleFormSubmit =async (e) => {
-    
+ e.preventDefault();
 
+    setLoading(true)
     const newTodo={
       todoName: formData.todoName,
       description: formData.description,
       status:formData.status,
     }
-    setTodo([...todo, newTodo])
-
-
     const response=await fetch("https://todo-backend-1la2.onrender.com/api/createtodo",{
       method:'POST',
       body:JSON.stringify(newTodo),
@@ -33,52 +29,21 @@ function TodoMaker () {
         "Content-Type":"application/json"
       }
     })
-
     console.log(response.body)
-
     if(response.ok){
       const result=await response.json();
       console.log("Todo Updated In data Base Successfully",result)
     }
-
     if(!response.ok){
       const result=await response.json();
       console.log('error Creating Todo in Database',result)
     }
 
-
-
-    console.log(formData)
-    console.log(todo)
+    setLoading(false)
   }
-
-
-  
-
-  const handleDragCapture = async (e) => {
-    e.preventDefault();
-   
-    setCompletedToDo([...completedToDo, {
-      todoName: todo[pickedElement.current].todoName,
-      description: todo[pickedElement.current].description,
-      status:todo[pickedElement.current].status,
-    }])
-    todo.splice(pickedElement.current, 1)
-    console.log("completedArray", completedToDo)
-  }
-
-  const handleDelete = (index, array) => {
-    const arraycopy = array;
-    arraycopy.splice(index, 1)
-    array==todo?setTodo([...arraycopy]):setCompletedToDo([...arraycopy])
-  }
-
-
-
 
   return (
     <div>
-
       <div>
         <Form
           titleUpdate={(e) => { setFormData({ ...formData, todoName: e.target.value }) }}
@@ -88,8 +53,9 @@ function TodoMaker () {
         />
       </div>
 
-      <TodoList/>
-
+      {
+        loading?"":<TodoList/>
+      }
         </div>
   )
 }
