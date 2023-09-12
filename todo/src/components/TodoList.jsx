@@ -84,7 +84,7 @@ console.log(data)
   return (
 
     <div className='flex xl:flex-row flex-col md:flex-row  justify-around m-auto'>
-<div id="todo" className='min-w-[30vw] mx-2 my-1 bg-blue-200 rounded-lg items-stretch  p-2' onDragEndCapture={(e)=>handleDragEnd(e)} onDragEnter={()=>pickedDiv.current=} >
+<div id="todo" className='min-w-[30vw] mx-2 my-1 bg-blue-200 rounded-lg items-stretch  p-2' onDragEndCapture={(e)=>handleDragEnd(e)}  >
 <p className='text-3xl p-2 font-bold m-auto'>Todo</p>
   {
     loading ?"loading":
